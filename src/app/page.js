@@ -1,6 +1,12 @@
 import Image from "next/image";
+import { Suspense } from "react";
+
 export default function Home() {
-  return <FetchData />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <FetchData />
+    </Suspense>
+  );
 }
 
 const FetchData = async () => {
