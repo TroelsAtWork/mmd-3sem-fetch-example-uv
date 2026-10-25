@@ -1,11 +1,14 @@
-import Image from "next/image";
 import { Suspense } from "react";
+import Link from "next/link";
+import Card from "@/components/Card";
 
-export default function Home() {
+export default async function Home() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <FetchData />
-    </Suspense>
+    <div className="grid grid-cols-1 justify-items-center gap-6 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <Suspense fallback={<div>Loading...</div>}>
+        <FetchData />
+      </Suspense>
+    </div>
   );
 }
 
@@ -19,10 +22,10 @@ const FetchData = async () => {
     },
   });
   const data = await response.json();
-  return data.products.map((product, index) => (
-    <div key={index}>
-      <Image src={product.images[0]} width={500} height={500} alt="billede" />
-      <div>{product.brand}</div>
-    </div>
+
+  return data.products.map((item) => (
+    <Link href={`/detailview/${item.id}`} key={item.id}>
+      <Card img={item.images[0]} heading={item.title} />
+    </Link>
   ));
 };
